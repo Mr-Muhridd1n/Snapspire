@@ -50,7 +50,7 @@ export const Login = () => {
               <FaUser className="border-r-white border-r-2 py-3 text-5xl text-white rounded-2xl" />
               <input
                 type="email"
-                placeholder="Email manzilingizni kiriting"
+                placeholder="Email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -65,7 +65,7 @@ export const Login = () => {
               <input
                 type="password"
                 value={password}
-                placeholder="Parolingizni kiriting"
+                placeholder="Password"
                 required
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full border-none text-black rounded-sm p-2 outline-none text-base font-semibold"
