@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+/* public-sans-regular - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Public Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/public-sans-v20-latin-regular.woff2') format('woff2');
+}
+
+/* public-sans-500 - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Public Sans';
+  font-style: normal;
+  font-weight: 500;
+  src: url('../fonts/public-sans-v20-latin-500.woff2') format('woff2');
+}
+
+/* public-sans-600 - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Public Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: url('../fonts/public-sans-v20-latin-600.woff2') format('woff2');
+}
+
+/* public-sans-700 - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Public Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/public-sans-v20-latin-700.woff2') format('woff2');
+}
+
+/* public-sans-800 - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Public Sans';
+  font-style: normal;
+  font-weight: 800;
+  src: url('../fonts/public-sans-v20-latin-800.woff2') format('woff2');
+}
+
+@theme {
+  --font-sans: "Public Sans", "sans-serif"
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body,
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
