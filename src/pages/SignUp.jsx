@@ -5,90 +5,98 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { login } from "../app/features/userSlice";
+import { FormInput } from "../components/FormInput";
 
 export const SignUp = () => {
-  const [name, setName] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
-  const [password2, setPassword2] = useState(null);
   const dispatch = useDispatch();
+  const [errorMessage, setErrorMessage] = useState({
+    name: null,
+    email: null,
+    password: null,
+    password2: null,
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (password == password2) {
+    const formData = new FormData(e.target);
+    const name = formData.get("name");
+    const email = formData.get("email");
+    const password = formData.get("password");
+    const password2 = formData.get("password2");
+
+    const newErrors = {
+      name: !name ? "Ismingizni kiriting !" : null,
+      email: !email ? "Email kiriting !" : null,
+      password: !password ? "Password kiriting !" : null,
+      password2: !password2 ? "Passwordni tasdiqlang !" : null,
+    };
+
+    if (password && password2 && password !== password2) {
+      newErrors.password2 = "Parollar mos emas!";
+    }
+
+    if (password && Array(password).length < 8) {
+      newErrors.password = "Murakkabroq parollardan foydalaning ! min: 8";
+    }
+
+    setErrorMessage(newErrors);
+
+    if (name && email && password && password2 && password2 == password) {
       dispatch(
-        login({ name: name, email: email, password: password, photoUrl: null })
+        login({
+          name: name,
+          email: email,
+          password: password,
+          photoUrl: null,
+        })
       );
-    } else {
-      toast.error("Parollar bir biriga mos kelmadi !");
     }
   };
 
   return (
-    <section>
-      <div className="w-full h-screen flex items-center justify-center bg-gradient-to-r from-orange-600 to-yellow-500">
-        <div className="max-w-96 w-full p-4 flex flex-col items-center rounded-2xl">
+    <section className="w-full h-screen bg-gradient-to-r from-orange-600 to-yellow-500 flex items-center justify-center overflow-hidden">
+      <div className="hidden lg:flex flex-1/2 w-full h-full overflow-hidden bg-black">
+        <img
+          src="https://picsum.photos/1200/800?random=1"
+          alt=""
+          className="w-full h-full object-cover"
+        />
+      </div>
+      <div className="flex lg:flex-1/2 items-center justify-center md:p-0 px-4 w-full overflow-hidden">
+        <div className="max-w-96 w-full flex flex-col items-center rounded-2xl">
           <div className="mt-3.5 mb-2.5">
             <FaRegUserCircle size="50" className="text-white" />
           </div>
           <h3 className="text-3xl mb-5 text-white">Accaunt Register</h3>
           <form className="w-full flex flex-col gap-3" onSubmit={handleSubmit}>
-            <label
-              htmlFor="name"
-              className="flex gap-2 items-center bg-white/50 rounded-[10px]"
-            >
-              <FaUser className="border-r-white border-r-2 py-3 text-5xl text-white rounded-2xl" />
-              <input
-                type="name"
-                value={name}
-                placeholder="Your name"
-                required
-                onChange={(e) => setName(e.target.value)}
-                className="w-full border-none text-black rounded-sm p-2 outline-none text-base font-semibold"
-              />
-            </label>
-            <label
-              htmlFor=""
-              className="flex gap-2 items-center bg-white/50 rounded-[10px]"
-            >
-              <MdEmail className="border-r-white border-r-2 py-3 text-5xl text-white rounded-2xl" />
-              <input
-                type="email"
-                value={email}
-                placeholder="Email address"
-                required
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full border-none text-black rounded-sm p-2 outline-none text-base font-semibold"
-              />
-            </label>
-            <label
-              htmlFor=""
-              className="flex gap-2 items-center bg-white/50 rounded-[10px]"
-            >
-              <FaLock className="border-r-white border-r-2 py-3 text-5xl text-white rounded-2xl" />
-              <input
-                type="password"
-                value={password}
-                placeholder="Password"
-                required
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full border-none text-black rounded-sm p-2 outline-none text-base font-semibold"
-              />
-            </label>
-            <label
-              htmlFor=""
-              className="flex gap-2 items-center bg-white/50 rounded-[10px]"
-            >
-              <FaLock className="border-r-white border-r-2 py-3 text-5xl text-white rounded-2xl" />
-              <input
-                type="password"
-                value={password2}
-                placeholder="Password confirmation"
-                required
-                onChange={(e) => setPassword2(e.target.value)}
-                className="w-full border-none text-black rounded-sm p-2 outline-none text-base font-semibold"
-              />
-            </label>
+            <FormInput
+              type={"text"}
+              icon={"FaUser"}
+              placeholder={"Your Name"}
+              name={"name"}
+              errorMessage={errorMessage.name}
+            />
+            <FormInput
+              type={"email"}
+              icon={"MdEmail"}
+              placeholder={"Email address"}
+              name={"email"}
+              errorMessage={errorMessage.email}
+            />
+            <FormInput
+              type={"password"}
+              icon={"FaLock"}
+              placeholder={"Password"}
+              name={"password"}
+              errorMessage={errorMessage.password}
+            />
+            <FormInput
+              type={"password"}
+              icon={"FaLock"}
+              placeholder={"Password confirmation"}
+              name={"password2"}
+              errorMessage={errorMessage.password2}
+            />
             <button
               type="submit"
               className="bg-orange-900 text-white w-full p-2 rounded-[10px] text-2xl cursor-pointer mb-4"

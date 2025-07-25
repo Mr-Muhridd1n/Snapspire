@@ -10,67 +10,77 @@ import {
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { FormInput } from "../components/FormInput";
 
 export const Login = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
   const [rememberMe, setRememberMe] = useState(false);
   const { userData } = useSelector((store) => store.user);
+  const [errorMessage, setErrorMessage] = useState({
+    email: null,
+    password: null,
+  });
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const dataUser =
-      userData &&
-      userData.map((user) => {
-        if (user.password == password && user.email == email) {
-          return user;
-        }
-      });
 
-    if (dataUser) {
-      toast.success("Akkauntingiz tasdiqlandi");
-    } else {
-      toast.error("Bunday user mavjut emas !");
+    const formData = new FormData(e.target);
+    const email = formData.get("email");
+    const password = formData.get("password");
+
+    const newErrors = {
+      email: !email ? "Email kiriting !" : null,
+      password: !password ? "Password kiriting !" : null,
+    };
+
+    setErrorMessage(newErrors);
+    if (email && password) {
+      const dataUser =
+        userData &&
+        userData.map((user) => {
+          if (user.password == password && user.email == email) {
+            return user;
+          }
+        });
+
+      if (dataUser) {
+        toast.success("Akkauntingiz tasdiqlandi");
+      } else {
+        toast.error("Bunday user mavjut emas !");
+      }
     }
   };
 
   return (
-    <section>
-      <div className="w-full h-screen flex items-center justify-center bg-gradient-to-r from-orange-600 to-yellow-500">
-        <div className="max-w-96 w-full p-4 flex flex-col items-center rounded-2xl">
+    <section className="w-full h-screen bg-gradient-to-r from-orange-600 to-yellow-500 flex items-center justify-center overflow-hidden">
+      <div className="hidden lg:flex flex-1/2 w-full h-full overflow-hidden bg-black">
+        <img
+          src="https://picsum.photos/1200/800?random=1"
+          alt=""
+          className="w-full h-full object-cover"
+        />
+      </div>
+      <div className="flex lg:flex-1/2 items-center justify-center md:p-0 px-4 w-full overflow-hidden">
+        <div className="max-w-96 w-full flex flex-col items-center rounded-2xl">
           <div className="mt-3.5 mb-2.5">
             <FaRegUserCircle size="50" className="text-white" />
           </div>
           <h3 className="text-3xl mb-5 text-white">Accaunt Login</h3>
-          <form className="w-full" onSubmit={handleSubmit}>
-            <label
-              htmlFor="email"
-              className="flex gap-2 items-center bg-white/50 mb-4 rounded-[10px]"
-            >
-              <FaUser className="border-r-white border-r-2 py-3 text-5xl text-white rounded-2xl" />
-              <input
-                type="email"
-                placeholder="Email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full border-none text-black rounded-sm p-2 outline-none text-base font-semibold"
-              />
-            </label>
-            <label
-              htmlFor=""
-              className="flex gap-2 items-center bg-white/50 rounded-[10px]"
-            >
-              <FaLock className="border-r-white border-r-2 py-3 text-5xl text-white rounded-2xl" />
-              <input
-                type="password"
-                value={password}
-                placeholder="Password"
-                required
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full border-none text-black rounded-sm p-2 outline-none text-base font-semibold"
-              />
-            </label>
+          <form className="w-full gap-3 flex flex-col" onSubmit={handleSubmit}>
+            <FormInput
+              type={"email"}
+              icon={"MdEmail"}
+              placeholder={"Email address"}
+              name={"email"}
+              errorMessage={errorMessage.email}
+            />
+            <FormInput
+              type={"password"}
+              icon={"FaLock"}
+              placeholder={"Password"}
+              name={"password"}
+              errorMessage={errorMessage.password}
+            />
             <div className="flex justify-between mt-3 text-base mb-3">
               <label htmlFor="rememberMe" className="flex gap-2.5 text-white">
                 <input
