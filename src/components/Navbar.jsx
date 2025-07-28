@@ -1,4 +1,5 @@
 import React from "react";
+import { FaUser } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -20,15 +21,10 @@ export const Navbar = () => {
             className="outline-none border-none w-full bg-white placeholder:list-none rounded-[5px] p-1 flex-1"
           />
           <span
-            className="text-xl font-semibold cursor-pointer flex items-center gap-2"
+            className="text-xl font-semibold cursor-pointer flex items-center gap-2 text-white"
             onClick={() => navigate("/profile")}
           >
-            <img
-              src={user.photoURL ? user.photoURL : "../public/defaultImage.png"}
-              className="w-10 h-10 rounded-full"
-              alt={user.displayName}
-            />{" "}
-            {user.displayName}
+            <FaUser /> Profile
           </span>
         </div>
       </nav>
