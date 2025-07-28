@@ -2,20 +2,17 @@ import { useState } from "react";
 import {
   FaFacebookF,
   FaGoogle,
-  FaLock,
   FaRegUserCircle,
   FaTwitter,
-  FaUser,
 } from "react-icons/fa";
-import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { FormInput } from "../components/FormInput";
+import { useLogin } from "../hooks/useLogin";
 
 export const Login = () => {
   const navigate = useNavigate();
+  const { isPending, setLogin } = useLogin();
   const [rememberMe, setRememberMe] = useState(false);
-  const { userData } = useSelector((store) => store.user);
   const [errorMessage, setErrorMessage] = useState({
     email: null,
     password: null,
@@ -35,19 +32,7 @@ export const Login = () => {
 
     setErrorMessage(newErrors);
     if (email && password) {
-      const dataUser =
-        userData &&
-        userData.map((user) => {
-          if (user.password == password && user.email == email) {
-            return user;
-          }
-        });
-
-      if (dataUser) {
-        toast.success("Akkauntingiz tasdiqlandi");
-      } else {
-        toast.error("Bunday user mavjut emas !");
-      }
+      setLogin(email, password);
     }
   };
 
@@ -98,9 +83,14 @@ export const Login = () => {
             </div>
             <button
               type="submit"
-              className="bg-orange-900 text-white w-full p-2 rounded-[10px] text-2xl cursor-pointer mb-4"
+              disabled={isPending}
+              className={`${
+                isPending
+                  ? "bg-orange-700 cursor-not-allowed"
+                  : "bg-orange-900 cursor-pointer hover:bg-orange-800"
+              } text-white w-full p-2 rounded-[10px] text-2xl mb-4 transition-colors`}
             >
-              Login
+              {isPending ? "Ma'lumotlar tekshirilmoqda..." : "Login"}
             </button>
             <div className="flex items-center mb-3">
               <div className="h-0.5 bg-amber-900 flex-1"></div>

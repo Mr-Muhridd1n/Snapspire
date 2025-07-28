@@ -1,22 +1,20 @@
 import { useState } from "react";
-import { FaLock, FaRegUserCircle, FaUser } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
-import { useDispatch } from "react-redux";
+import { FaRegUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
-import { login } from "../app/features/userSlice";
 import { FormInput } from "../components/FormInput";
+import { useSignUp } from "../hooks/useSignUp";
 
 export const SignUp = () => {
-  const dispatch = useDispatch();
+  const { isPending, signUp } = useSignUp();
   const [errorMessage, setErrorMessage] = useState({
     name: null,
     email: null,
     password: null,
     password2: null,
+    general: null,
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const name = formData.get("name");
@@ -24,33 +22,36 @@ export const SignUp = () => {
     const password = formData.get("password");
     const password2 = formData.get("password2");
 
+    setErrorMessage({
+      name: null,
+      email: null,
+      password: null,
+      password2: null,
+      general: null,
+    });
+
     const newErrors = {
       name: !name ? "Ismingizni kiriting !" : null,
       email: !email ? "Email kiriting !" : null,
       password: !password ? "Password kiriting !" : null,
       password2: !password2 ? "Passwordni tasdiqlang !" : null,
+      general: null,
     };
 
     if (password && password2 && password !== password2) {
       newErrors.password2 = "Parollar mos emas!";
     }
 
-    if (password && Array(password).length < 8) {
+    if (password && password.length < 8) {
       newErrors.password = "Murakkabroq parollardan foydalaning ! min: 8";
     }
 
-    setErrorMessage(newErrors);
-
-    if (name && email && password && password2 && password2 == password) {
-      dispatch(
-        login({
-          name: name,
-          email: email,
-          password: password,
-          photoUrl: null,
-        })
-      );
+    const hasErrors = Object.values(newErrors).some((error) => error !== null);
+    if (hasErrors) {
+      setErrorMessage(newErrors);
+      return;
     }
+    signUp(name, email, password);
   };
 
   return (
@@ -67,7 +68,15 @@ export const SignUp = () => {
           <div className="mt-3.5 mb-2.5">
             <FaRegUserCircle size="50" className="text-white" />
           </div>
-          <h3 className="text-3xl mb-5 text-white">Accaunt Register</h3>
+          <h3 className="text-3xl mb-5 text-white">Account Register</h3>
+
+          {/* Umumiy xatolik xabari */}
+          {errorMessage.general && (
+            <div className="w-full mb-3 p-3 bg-red-500 text-white rounded-lg text-sm">
+              {errorMessage.general}
+            </div>
+          )}
+
           <form className="w-full flex flex-col gap-3" onSubmit={handleSubmit}>
             <FormInput
               type={"text"}
@@ -99,13 +108,21 @@ export const SignUp = () => {
             />
             <button
               type="submit"
-              className="bg-orange-900 text-white w-full p-2 rounded-[10px] text-2xl cursor-pointer mb-4"
+              disabled={isPending}
+              className={`${
+                isPending
+                  ? "bg-orange-700 cursor-not-allowed"
+                  : "bg-orange-900 cursor-pointer hover:bg-orange-800"
+              } text-white w-full p-2 rounded-[10px] text-2xl mb-4 transition-colors`}
             >
-              Sign Up
+              {isPending ? "Ro'yxatdan o'tmoqda..." : "Sign Up"}
             </button>
             <div className="flex items-center justify-center gap-3">
               <span className="text-white">Already a member?</span>
-              <Link to="/login" className="text-orange-900">
+              <Link
+                to="/login"
+                className="text-orange-900 hover:text-orange-800"
+              >
                 Login
               </Link>
             </div>

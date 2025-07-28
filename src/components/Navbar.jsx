@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
   const { user } = useSelector((store) => store.user);
+  console.log(user);
+
   const navigate = useNavigate();
   return (
     <header>
@@ -22,11 +24,11 @@ export const Navbar = () => {
             onClick={() => navigate("/profile")}
           >
             <img
-              src={user.photoUrl ? "" : "../public/defaultImage.png"}
+              src={user.photoURL ? user.photoURL : "../public/defaultImage.png"}
               className="w-10 h-10 rounded-full"
-              alt={user.name}
+              alt={user.displayName}
             />{" "}
-            {user.name}
+            {user.displayName}
           </span>
         </div>
       </nav>
