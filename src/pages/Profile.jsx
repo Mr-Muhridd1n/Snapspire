@@ -18,8 +18,8 @@ export const Profile = () => {
   const { user } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   return (
-    <section className="py-8 px-4">
-      <div>
+    <section>
+      <div className="container mx-auto py-8 px-4">
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden mb-6">
           <div className="h-48 bg-gradient-to-r from-orange-400 to-yellow-500 relative">
             <div className="absolute inset-0 bg-black bg-opacity-20"></div>
@@ -45,21 +45,19 @@ export const Profile = () => {
             </div>
 
             <div className="text-center mb-6">
-              <h1 className="text-2xl font-bold text-gray-800 mb-2">
+              <h1 className="text-2xl font-bold text-gray-800 mb-4">
                 {user.displayName}
               </h1>
-
-              <p className="text-gray-600 mb-4">Dasturchi va texnolog</p>
 
               <div className="flex justify-center gap-3">
                 <>
                   <button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-all">
                     <FaEdit size={14} />
-                    Tahrirlash
+                    Edited
                   </button>
                   <button className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg flex items-center gap-2 transition-all">
                     <FaCog size={14} />
-                    Sozlamalar
+                    Setting
                   </button>
                   <button
                     className="flex items-center gap-3 p-3 text-left hover:bg-red-50 text-red-600 rounded-lg transition-all bg-gray-200"
@@ -70,7 +68,7 @@ export const Profile = () => {
                     }}
                   >
                     <FaSignOutAlt className="text-red-500" />
-                    <span>Chiqish</span>
+                    <span>LogOut</span>
                   </button>
                 </>
               </div>
@@ -82,7 +80,7 @@ export const Profile = () => {
           <div className="bg-white rounded-2xl shadow-xl p-6">
             <h2 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
               <FaUser className="text-orange-500" />
-              Shaxsiy Ma'lumotlar
+              Personal Information
             </h2>
 
             <div className="space-y-4">
@@ -98,7 +96,7 @@ export const Profile = () => {
               <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                 <FaPhone className="text-orange-500" />
                 <div className="flex-1">
-                  <label className="text-sm text-gray-600">Telefon</label>
+                  <label className="text-sm text-gray-600">Phone</label>
 
                   <p className="font-medium text-gray-800">
                     {user.phoneNumber ?? "Mavjut emas"}
@@ -109,9 +107,7 @@ export const Profile = () => {
               <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                 <FaCalendarAlt className="text-orange-500" />
                 <div className="flex-1">
-                  <label className="text-sm text-gray-600">
-                    Qo'shilgan sana
-                  </label>
+                  <label className="text-sm text-gray-600">Date added</label>
                   <p className="font-medium text-gray-800">
                     {user.metadata.creationTime}
                   </p>
