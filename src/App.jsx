@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/config";
 import { login, authReady } from "./app/features/userSlice";
+import { Chat } from "./pages/Chat";
 
 function App() {
   const { user, isAuthReady } = useSelector((store) => store.user);
@@ -31,6 +32,7 @@ function App() {
         },
         { path: "/profile", element: <Profile /> },
         { path: "/singleImage", element: <SingleImage /> },
+        { path: "/chat:id", element: <Chat /> },
       ],
     },
     { path: "/login", element: user ? <Navigate to="/" /> : <Login /> },
