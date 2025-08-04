@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { auth } from "../firebase/config";
+import { auth, db } from "../firebase/config";
 import { toast } from "react-toastify";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { login } from "../app/features/userSlice";
+import { doc, setDoc } from "firebase/firestore";
 
 export const useSignUp = () => {
   const [isPending, setIsPending] = useState(false);
@@ -21,6 +22,14 @@ export const useSignUp = () => {
       await updateProfile(auth.currentUser, {
         displayName: name,
         photoURL: photoURL,
+      });
+
+      console.log(auth);
+
+      await setDoc(doc(db, "users", auth.currentUser.uid), {
+        online: true,
+        displayName: auth.currentUser.displayName,
+        photoURL: auth.currentUser.photoURL,
       });
 
       dispatch(login(req.user));
