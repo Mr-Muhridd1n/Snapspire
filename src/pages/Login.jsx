@@ -73,7 +73,7 @@ export const Login = () => {
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="w-4"
+                  className="checkbox"
                 />{" "}
                 <span>Remember Me</span>
               </label>
