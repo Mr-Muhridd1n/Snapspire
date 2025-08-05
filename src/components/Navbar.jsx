@@ -18,7 +18,7 @@ export const Navbar = () => {
           <input
             type="search"
             placeholder="Search text ..."
-            className="outline-none border-none w-full bg-white placeholder:list-none rounded-[5px] p-1 flex-1"
+            className="outline-none border-none w-full bg-white text-gray-800 placeholder:list-none rounded-[5px] p-1 flex-1"
           />
           <span
             className="text-xl font-semibold cursor-pointer flex items-center gap-2 text-white"

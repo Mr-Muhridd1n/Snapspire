@@ -32,7 +32,7 @@ function App() {
         },
         { path: "/profile", element: <Profile /> },
         { path: "/singleImage", element: <SingleImage /> },
-        { path: "/chat:id", element: <Chat /> },
+        { path: "/chat/:id", element: <Chat /> },
       ],
     },
     { path: "/login", element: user ? <Navigate to="/" /> : <Login /> },
