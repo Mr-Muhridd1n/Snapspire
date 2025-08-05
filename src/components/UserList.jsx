@@ -28,8 +28,14 @@ export const UserList = () => {
           <IoIosArrowDroprightCircle size={30} />
         )}
       </div>
-      <ul className={`${!userList && "hidden"} overflow-y-auto`}>
-        <h2 className="text-3xl text-center font-bold mb-2">Users list</h2>
+      <ul
+        className={`${
+          !userList && "hidden"
+        } overflow-y-auto flex flex-col gap-3`}
+      >
+        <h2 className="text-3xl text-center font-bold mb-2 bg-gray-700 py-2">
+          Users list
+        </h2>
         {users &&
           users.map((user) => {
             return (
