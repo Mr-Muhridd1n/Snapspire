@@ -10,17 +10,10 @@ import {
 } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useLogout } from "../hooks/useLogout";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebase/config";
 
 export const Profile = () => {
   const { user } = useSelector((store) => store.user);
   const { setLogout, isPending } = useLogout();
-
-  const getUsers = async () => {
-    const querySnapshot = await getDocs(collection(db, "users"));
-    return querySnapshot;
-  };
 
   return (
     <section>
@@ -119,18 +112,6 @@ export const Profile = () => {
               </div>
             </div>
           </div>
-        </div>
-        <div className="shadow-md rounded-2xl flex-2/5">
-          <ul>
-            {getUsers() &&
-              getUsers().forEach((user) => {
-                return (
-                  <li>
-                    <h1>{user.displayName}</h1>
-                  </li>
-                );
-              })}
-          </ul>
         </div>
       </div>
     </section>

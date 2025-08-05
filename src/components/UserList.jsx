@@ -46,20 +46,20 @@ export const UserList = () => {
                   navigate(`/chat/${user.id}`);
                 }}
               >
-                {user.online ? (
-                  <div className="avatar avatar-online">
-                    <div className="w-18 rounded-full">
-                      <img src={user.photoURL} />
-                    </div>
-                  </div>
-                ) : (
-                  <div className="avatar avatar-offline">
-                    <div className="w-18 rounded-full">
-                      <img src={user.photoURL} />
-                    </div>
-                  </div>
-                )}
-                <h3 className="text-3xl font-semibold">{user.displayName}</h3>
+                <div className="flex relative overflow-hidden">
+                  <img src={user.photoURL} className="w-18 rounded-full" />
+                  <div
+                    className={`w-3 h-3 ${
+                      user.online ? "bg-green-400" : "bg-red-500"
+                    } bottom-1 absolute right-2 inline-block rounded-full shadow-md`}
+                  ></div>
+                </div>
+                <div>
+                  <h3 className="text-3xl font-semibold">{user.displayName}</h3>
+                  <p className="text-gray-400">
+                    {user.online ? "Online" : "Offline"}
+                  </p>
+                </div>
               </li>
             );
           })}
